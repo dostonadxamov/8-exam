@@ -6,13 +6,15 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ProtectedRouters from "./components/ProtectedRouters";
 import { useSelector } from "react-redux";
+import { action } from "./pages/Signup";
+import { action as action2 } from "./pages/Login";
 
 export default function App() {
   const { user } = useSelector(store => store.user)
   const routes = createBrowserRouter([
     {
       path: "/",
-      element: <ProtectedRouters >
+      element: <ProtectedRouters user={user}>
         <MainLayouts />
       </ProtectedRouters>,
       children: [
@@ -25,10 +27,12 @@ export default function App() {
     {
       path: "/login",
       element: user ? <Navigate to="/" /> : <Login />,
+      action:action2
     },
     {
       path: "/signup",
-      element: user ? <Navigate to="/" /> : <Signup />
+      element: user ? <Navigate to="/" /> : <Signup />,
+      action: action
     },
   ]);
 

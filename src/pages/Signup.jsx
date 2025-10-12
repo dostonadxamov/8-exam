@@ -1,7 +1,29 @@
-import { NavLink } from "react-router-dom";
+import { Form, NavLink, useActionData } from "react-router-dom";
 import Button from "../components/Button";
+import { useSignup } from "../Hooks/useSignup";
+import { useEffect} from "react";
+import { FormError } from "../components/ErrorId";
+import { toast } from "react-toastify";
+
+export async function action({ request }) {
+  const formdata = await request.formData()
+  const data = Object.fromEntries(formdata)
+
+  return data
+}
 
 export default function Signup() {
+  const data = useActionData()
+  // const { signup } = useSignup()
+
+  useEffect(() => {
+    if (data?.username && data?.photo && data?.email && data?.password) {
+      console.log(data);
+    } else {
+      toast.error(FormError(data))
+    }
+  }, [data])
+
   return (
     <div className="relative flex px-[10px] items-center justify-center min-h-screen bg-[#0d0d0d] overflow-hidden">
 
@@ -15,10 +37,11 @@ export default function Signup() {
 
         <div className="relative z-10">
           <h1 className="text-2xl font-bold mb-6 text-start">Sign Up</h1>
-          <form className="space-y-10">
+          <Form method="post" className="space-y-10">
             <fieldset>
               <legend className="block mb-2 text-sm font-medium">Username</legend>
               <input
+                name="username"
                 type="text"
                 className="block w-full px-4 py-2 border border-white/20 rounded-md 
                            bg-white/10 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500"
@@ -29,6 +52,7 @@ export default function Signup() {
             <fieldset>
               <legend className="block mb-2 text-sm font-medium">Photo URL</legend>
               <input
+                name="photo"
                 type="url"
                 className="block w-full px-4 py-2 border border-white/20 rounded-md 
                            bg-white/10 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500"
@@ -39,6 +63,7 @@ export default function Signup() {
             <fieldset>
               <legend className="block mb-2 text-sm font-medium">Email</legend>
               <input
+                name="email"
                 type="email"
                 className="block w-full px-4 py-2 border border-white/20 rounded-md 
                            bg-white/10 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500"
@@ -49,6 +74,7 @@ export default function Signup() {
             <fieldset>
               <legend className="block mb-2 text-sm font-medium">Password</legend>
               <input
+                name="password"
                 type="password"
                 className="block w-full px-4 py-2 border border-white/20 rounded-md 
                            bg-white/10 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500"
@@ -62,7 +88,7 @@ export default function Signup() {
               Already have an account?
               <NavLink to="/login" className="text-pink-400 underline ml-[10px] cursor-pointer">Sign In</NavLink>
             </p>
-          </form>
+          </Form>
         </div>
       </div>
     </div>

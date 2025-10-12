@@ -9,13 +9,13 @@ const userSlice = createSlice({
     initialState,
     reducers:{
 
-        login:(state, {payload})=>{
+        // login:(state, {payload})=>{
 
-        },
+        // },
 
-        logout:(state, {payload})=>{
+        // logout:(state, {payload})=>{
 
-        }
+        // }
         
     }
 })
