@@ -1,7 +1,7 @@
 import { Form, NavLink, useActionData } from "react-router-dom";
 import Button from "../components/Button";
 import { useEffect } from "react";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import { FormError } from "../components/ErrorId";
 
 
@@ -17,10 +17,12 @@ export default function Login() {
   const data = useActionData()
 
   useEffect(() => {
-    if (data?.email && data?.password) {
-      console.log(data);
-    } else {
-      toast.error(FormError(data))
+    if (data) {
+      if (data?.email && data?.password) {
+        console.log(data);
+      } else {
+        toast.error(FormError(data))
+      }
     }
   }, [data])
 
