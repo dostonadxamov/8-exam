@@ -14,12 +14,12 @@ export async function action({ request }) {
 
 export default function Signup() {
   const data = useActionData()
-  // const { signup } = useSignup()
+  const { signup, ispending } = useSignup()
 
   useEffect(() => {
     if (data) {
       if (data?.username && data?.photo && data?.email && data?.password) {
-        console.log(data);
+        signup(data.username, data.photo, data.email, data.password)
       } else {
         toast.error(FormError(data))
       }
@@ -83,8 +83,8 @@ export default function Signup() {
                 placeholder="Password"
               />
             </fieldset>
-            <Button />
-
+            {!ispending && <Button text="Sign Up" />}
+            {ispending && <Button disabled={true} text="Loading..." />}
 
             <p className="text-center">
               Already have an account?

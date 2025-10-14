@@ -3,6 +3,7 @@ import Button from "../components/Button";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { FormError } from "../components/ErrorId";
+import { useLogin } from "../Hooks/useLogin";
 
 
 export async function action({ request }) {
@@ -14,17 +15,19 @@ export async function action({ request }) {
 
 
 export default function Login() {
+  const { login, ispending } = useLogin()
   const data = useActionData()
 
   useEffect(() => {
     if (data) {
       if (data?.email && data?.password) {
-        console.log(data);
+        login(data?.email, data?.password)
       } else {
         toast.error(FormError(data))
       }
     }
   }, [data])
+
 
   return (
     <div className="relative flex px-[10px] items-center justify-center min-h-screen bg-[#0d0d0d] overflow-hidden">
@@ -45,6 +48,7 @@ export default function Login() {
               <input
                 name="email"
                 type="text"
+                required
                 className="block w-full px-4 py-2 border border-white/20 rounded-md 
                            bg-white/10 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500"
                 placeholder="Email"
@@ -54,6 +58,7 @@ export default function Login() {
             <fieldset>
               <legend className="block mb-2 text-sm font-medium">Password</legend>
               <input
+                required
                 name="password"
                 type="password"
                 className="block w-full px-4 py-2 border border-white/20 rounded-md 
@@ -61,7 +66,9 @@ export default function Login() {
                 placeholder="Password"
               />
             </fieldset>
-            <Button />
+
+            {!ispending && <Button text="Sign In" />}
+            {ispending && <Button disabled={true} text="Loading..." />}
 
 
             <p className="text-center">

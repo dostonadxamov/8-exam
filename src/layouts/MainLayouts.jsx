@@ -1,6 +1,10 @@
 import { Outlet } from "react-router-dom";
+import { useLogout } from "../Hooks/useLogout";
+import { useSelector } from "react-redux";
 
 export default function MainLayouts() {
+  const { user } = useSelector((store) => store.user)
+  const { logout, ispending } = useLogout()
   return (
     <>
       <header>
@@ -9,26 +13,27 @@ export default function MainLayouts() {
             <a className="btn btn-ghost text-xl">Kitchen app</a>
           </div>
           <div className="flex-none">
-     
+
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                 <div className="w-10 rounded-full">
                   <img
                     alt="Tailwind CSS Navbar component"
-                    src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                    src={user?.photoURL} />
                 </div>
               </div>
               <ul
                 tabIndex={0}
                 className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+                <li><a>Home</a></li>
+                <li><a>Create recipe</a></li>
                 <li>
-                  <a className="justify-between">
-                    Profile
-                    <span className="badge">New</span>
-                  </a>
+                  <label className="swap ml-[-80px] swap-rotate">
+                    <a>Theme controller</a>
+                    <input type="checkbox" className="theme-controller" value="black" />
+                  </label>
                 </li>
-                <li><a>Settings</a></li>
-                <li><a>Logout</a></li>
+                <li><button onClick={logout}>Logout</button></li>
               </ul>
             </div>
           </div>
