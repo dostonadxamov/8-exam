@@ -4,8 +4,6 @@ import { createUserWithEmailAndPassword, updateProfile} from "firebase/auth";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { login } from "../app/features/userSlice";
-import { db } from "../firebase/config";
-import { doc, setDoc } from "firebase/firestore";
 
 export const useSignup = () => {
     const dispatch = useDispatch()
@@ -22,12 +20,7 @@ export const useSignup = () => {
                 photoURL: photo 
             })
 
-            await setDoc(doc(db, "users", req.user.uid), {
-                displayName: req.user.displayName,
-                photoURL: req.user.photo,
-                uid: req.user.uid
-            })
-
+     
             dispatch(login(req.user))
             console.log(req.user);
             

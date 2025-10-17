@@ -1,7 +1,7 @@
 import { Link, Outlet } from "react-router-dom";
 import { useLogout } from "../Hooks/useLogout";
 import { useSelector } from "react-redux";
-
+import img from "../assets/dos.jpg"
 export default function MainLayouts() {
   const { user } = useSelector((store) => store.user)
   const { logout, ispending } = useLogout()
@@ -18,8 +18,8 @@ export default function MainLayouts() {
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                 <div className="w-10 rounded-full">
                   <img
-                    alt="Tailwind CSS Navbar component"
-                    src="./assets/IMG_20251015_105431_944.jpg" />
+                    alt="DA"
+                    src={img} />
                 </div>
               </div>
               <ul
