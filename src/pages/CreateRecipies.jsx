@@ -1,7 +1,19 @@
 import { useState } from "react";
 
+
 export default function AddRecipe() {
 
+  const [title, setTitle] = useState("");
+  const [cookingTime, setCookingTime] = useState("");
+  const [ingredients, setIngredients] = useState([]);
+  const [imageUrl, setImageUrl] = useState("");
+  const [method, setMethod] = useState("");
+
+  function handlesubmit(e) {
+    e.preventDefault();
+
+    
+  }
 
   return (
     <div className="pt-16 flex items-center justify-center ">

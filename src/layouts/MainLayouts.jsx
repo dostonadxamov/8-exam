@@ -19,7 +19,7 @@ export default function MainLayouts() {
                 <div className="w-10 rounded-full">
                   <img
                     alt="Tailwind CSS Navbar component"
-                    src={user?.photoURL} />
+                    src="./assets/IMG_20251015_105431_944.jpg" />
                 </div>
               </div>
               <ul
