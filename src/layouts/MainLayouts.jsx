@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { useLogout } from "../Hooks/useLogout";
 import { useSelector } from "react-redux";
 
@@ -25,8 +25,8 @@ export default function MainLayouts() {
               <ul
                 tabIndex={0}
                 className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                <li><a>Home</a></li>
-                <li><a>Create recipe</a></li>
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/create">Create recipe</Link></li>
                 <li>
                   <label className="swap ml-[-80px] swap-rotate">
                     <a>Theme controller</a>
@@ -45,11 +45,6 @@ export default function MainLayouts() {
       </main>
 
 
-      <footer className="absolute bottom-0 footer sm:footer-horizontal footer-center bg-base-300 text-base-content p-4">
-        <aside>
-          <p>Copyright © {new Date().getFullYear()} - All right reserved by ACME Industries Ltd</p>
-        </aside>
-      </footer>
 
     </>
   )

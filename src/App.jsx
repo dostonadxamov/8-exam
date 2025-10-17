@@ -12,6 +12,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
 import { isAuthReady, login } from "./app/features/userSlice";
 import { auth } from "./firebase/config";
+import CreateRecipies from "./pages/CreateRecipies";
 
 export default function App() {
   const { user, authReady } = useSelector(store => store.user)
@@ -27,6 +28,10 @@ export default function App() {
           index: true,
           element: <Home />,
         },
+        {
+          path: "/create",
+          element: <CreateRecipies />
+        }
       ],
     },
     {
