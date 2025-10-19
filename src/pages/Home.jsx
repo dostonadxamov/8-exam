@@ -9,81 +9,71 @@ export default function Home() {
   const { data: recipes, loading } = useCollection("recipes", true);
 
   async function handleDelete(id) {
-    try{
+    try {
       const docRef = doc(db, "recipes", id)
       await deleteDoc(docRef)
     }
-    catch(err){
+    catch (err) {
       toast.error(err.message)
     }
   }
+  console.log(recipes);
 
   return (
     <div className="my-8">
       <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20 flex flex-col gap-8">
         <h2 className="text-xl sm:text-2xl font-medium">Recipes</h2>
-
-        {loading ? (
-          <div className="flex justify-center items-center min-h-[60vh]">
-            <span className="loading loading-ring loading-xl"></span>
-          </div>
-        ) : recipes.length > 0 ? (
-          <div
-            className="grid gap-8 
+        <div
+          className="grid gap-8 
               grid-cols-1 
               sm:grid-cols-2 
               md:grid-cols-3 
-              lg:grid-cols-4"
-          >
-            {recipes.map((recipe) => (
-              <div
-                key={recipe.id}
-                className="relative bg-base-100 border border-base-300 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group"
-              >
-                <button
+              lg:grid-cols-4">
+          {recipes.map((recipe) => (
+            <div
+              key={recipe.id}
+              className="relative bg-base-100 border border-base-300 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group"
+            >
+              <button
                 onClick={() => handleDelete(recipe.id)}
-                  className="absolute top-3 right-3 bg-black/60 text-white 
+                className="absolute top-3 left-3 bg-black/60 text-white 
              rounded-full w-8 h-8 flex items-center justify-center
              opacity-0 group-hover:opacity-100 
              transition-all duration-300 hover:bg-black z-[50]"
+              >
+                <div
+                  className="tooltip tooltip-bottom "
+                  data-tip="Delete"
                 >
-                  <div
-                    className="tooltip tooltip-left z-[60]"
-                    data-tip="Delete"
-                  >
-                    <IoMdClose className="text-base" />
-                  </div>
-                </button>
+                  <IoMdClose className="text-base" />
+                </div>
+              </button>
 
-                <Link to={`/SingleRecipe/${recipe.id}`}>
-                  <figure className="relative w-full h-56 overflow-hidden">
-                    <img
-                      src={recipe.images?.[0]}
-                      alt={recipe.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute top-3 left-3 bg-black/60 text-white px-3 py-1 rounded-full text-sm">
-                      {recipe.cookTime} min
-                    </div>
-                  </figure>
+              <Link to={`/recipe/${recipe.id}`}>
+                <figure className="relative w-full h-56 overflow-hidden">
+                  <img
+                    src={recipe.image}
+                    alt={recipe.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
 
-                  <div className="p-5 flex flex-col gap-3">
-                    <h2 className="text-lg font-semibold line-clamp-1">
-                      {recipe.title}
-                    </h2>
-                    <p className="text-sm text-gray-500 line-clamp-2">
-                      {recipe.method}
-                    </p>
-                  </div>
-                </Link>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="text-gray-600 font-normal text-center py-10">
-            No recipe yet!
-          </p>
-        )}
+                </figure>
+
+                <div className="p-5 flex flex-col gap-3">
+                  <h2 className="text-lg font-semibold line-clamp-1">
+                    {recipe.title}
+                  </h2>
+                  <p className="text-sm text-gray-500 line-clamp-2">
+                    {recipe.method}
+                  </p>
+                </div>
+                <div className="absolute top-3 right-3 bg-black/60 text-white px-3 py-1 rounded-full text-sm">
+                  {recipe.cookTime} min
+                </div>
+              </Link>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

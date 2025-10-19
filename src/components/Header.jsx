@@ -1,34 +1,7 @@
-import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
-import useLogout from "../hooks/useLogout";
-import { RxExit } from "react-icons/rx";
-import { FaRegMoon } from "react-icons/fa";
-import { LuSun } from "react-icons/lu";
-import { IoCreateOutline } from "react-icons/io5";
-import { AiOutlineHome } from "react-icons/ai";
-import { MdOutlineClose } from "react-icons/md";
+
 
 export default function Header() {
-  const { user } = useSelector((store) => store.userList);
-  const [theme, setTheme] = useState("light");
-  const { _logout, isPending } = useLogout();
-  const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    const saved = localStorage.getItem("theme") || "light";
-    setTheme(saved);
-  }, []);
-
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
-  function toggleTheme() {
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
-  }
-
+ 
   return (
     <div className="w-full z-50 bg-black border-b border-white/10 shadow-md">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-12 py-4 flex items-center justify-between relative">

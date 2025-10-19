@@ -1,35 +1,22 @@
 import { useState } from "react";
 import { CiCirclePlus } from "react-icons/ci";
-import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 import { db } from "../firebase/config";
 import { addDoc, collection } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 export default function CreateRecipe() {
+  const [loading, setLoading] = useState(false);
   const [ingredients, setIngredients] = useState([]);
   const [ingredientInput, setIngredientInput] = useState("");
-  const [images, setImages] = useState([]);
-  const [imageInput, setImageInput] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState("");
   const navigate = useNavigate();
 
-  function handleAddIngredient() {
-    if (!ingredientInput.trim()) {
-      toast.error("Please enter an ingredient!");
-      return;
-    }
-
+  // Ingredient qo‘shish
+  function addIngredient() {
+    if (!ingredientInput.trim()) return;
     setIngredients([...ingredients, ingredientInput.trim()]);
     setIngredientInput("");
-  }
-
-  function handleAddImage() {
-    if (!imageInput.trim()) {
-      toast.error("Please enter a Image URL");
-      return;
-    }
-    setImages([...images, imageInput.trim()]);
-    setImageInput("");
   }
 
   async function handleSubmit(e) {
@@ -40,165 +27,111 @@ export default function CreateRecipe() {
     const cookTime = formData.get("cookTime");
     const method = formData.get("method");
 
-    if (!title) {
-      toast.error("Please enter a recipe title!");
-      return;
-    }
-    if (!cookTime) {
-      toast.error("Please enter a Cooking Time!");
-      return;
-    }
-    if (!method) {
-      toast.error("Please enter a method!");
-      return;
-    }
+    if (!title) return toast.error("Please enter recipe title!");
+    if (!cookTime) return toast.error("Please enter Cooking Time!");
+    if (!method) return toast.error("Please enter method!");
+    if (!image) return toast.error("Please enter image URL!");
 
-    const recipe = {
-      title,
-      cookTime,
-      method,
-      ingredients,
-      images,
-    };
+    const recipe = { title, cookTime, method, ingredients, image };
+
     setLoading(true);
-
     try {
-      await addDoc(collection(db, "recipes"), { ...recipe });
+      await addDoc(collection(db, "recipes"), recipe);
       toast.success("Recipe created successfully!");
       navigate("/");
     } catch (err) {
-      toast.error("Failed to create recipe!");
-      console.error(err);
+      console.log(err);
+      toast.error("Failed to create recipe.");
     } finally {
       setLoading(false);
+      setIngredients([]);
+      setIngredientInput("");
+      setImage("");
+      e.target.reset();
     }
-
-    e.target.reset();
-    setIngredients([]);
-    setImages([]);
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-base-200 px-4 py-10">
+    <div className="min-h-screen flex items-center justify-center px-4 py-10">
       <form
         onSubmit={handleSubmit}
-        className="bg-base-100 shadow-md rounded-2xl p-6 w-full max-w-2xl space-y-6 border border-base-300"
+        className="shadow-md rounded-2xl p-6 w-full max-w-2xl space-y-6 border border-gray-300"
       >
-        <h2 className="text-2xl font-semibold text-center mb-4">
-          Add New Recipe
-        </h2>
+        <h2 className="text-2xl font-semibold text-center mb-4">Add New Recipe</h2>
 
+        {/* Cooking Time */}
         <div>
-          <label className="label">
-            <span className="label-text font-medium">Title:</span>
-          </label>
-          <input
-            type="text"
-            name="title"
-            className="input input-bordered w-full"
-            placeholder="Enter recipe title"
-          />
-        </div>
-
-        <div>
-          <label className="label">
-            <span className="label-text font-medium">
-              Cooking Time:(minutes)
-            </span>
-          </label>
+          <label className="font-medium">Cooking Time</label>
           <input
             type="number"
             name="cookTime"
-            className="input input-bordered w-full"
+            className="input input-bordered w-full border p-2 rounded"
             placeholder="Enter Cooking Time"
           />
         </div>
 
+        {/* Title */}
         <div>
-          <label className="label">
-            <span className="label-text font-medium">Ingredients:</span>
-          </label>
-          <div className="flex gap-2">
+          <label className="font-medium">Title</label>
+          <input
+            type="text"
+            name="title"
+            className="input input-bordered w-full border p-2 rounded"
+            placeholder="Enter recipe name"
+          />
+        </div>
+
+        {/* Ingredients */}
+        <div>
+          <label className="font-medium">Ingredients</label>
+          <div className="flex gap-2 mt-1">
             <input
               type="text"
               value={ingredientInput}
               onChange={(e) => setIngredientInput(e.target.value)}
-              className="input input-bordered flex-1"
+              className="input input-bordered flex-1 border p-2 rounded"
               placeholder="Enter ingredient"
             />
             <button
               type="button"
-              onClick={handleAddIngredient}
-              className="btn btn-neutral btn-square"
-              title="Add ingredient"
+              onClick={addIngredient}
+              className="btn btn-outline p-2"
             >
-              <CiCirclePlus className="text-2xl" />
+              <CiCirclePlus size={20} />
             </button>
           </div>
-
-          <div className="flex flex-wrap gap-2 mt-3">
-            {ingredients.length > 0 ? (
-              ingredients.map((item, i) => (
-                <div key={i} className="badge badge-outline">
-                  {item}
-                </div>
-              ))
-            ) : (
-              <div className="badge badge-outline">No Ingredients Yet!</div>
-            )}
+          <div className="flex flex-wrap gap-2 mt-2">
+            {ingredients.map((item, i) => (
+              <div key={i} className="badge badge-outline">
+                {item}
+              </div>
+            ))}
           </div>
         </div>
 
+        {/* Single Image */}
         <div>
-          <label className="label">
-            <span className="label-text font-medium">Image URLs:</span>
-          </label>
-          <div className="flex gap-2">
-            <input
-              type="url"
-              value={imageInput}
-              onChange={(e) => setImageInput(e.target.value)}
-              className="input input-bordered flex-1"
-              placeholder="Enter Image URL"
-            />
-            <button
-              type="button"
-              onClick={handleAddImage}
-              className="btn btn-neutral btn-square"
-              title="Add image"
-            >
-              <CiCirclePlus className="text-2xl" />
-            </button>
-          </div>
-
-          <div className="flex flex-wrap gap-2 mt-3">
-            {images.length > 0 ? (
-              images.map((img, i) => (
-                <div
-                  key={i}
-                  className="badge badge-outline max-w-[200px] truncate"
-                >
-                  {img}
-                </div>
-              ))
-            ) : (
-              <div className="badge badge-outline">No Image URL Yet!</div>
-            )}
-          </div>
+          <label className="font-medium">Image URL</label>
+          <input
+            type="url"
+            value={image}
+            onChange={(e) => setImage(e.target.value)}
+            className="input input-bordered w-full border p-2 rounded"
+            placeholder="Enter Image URL"
+          />
         </div>
 
-        {/* METHOD */}
+        {/* Method */}
         <div>
-          <label className="label">
-            <span className="label-text font-medium">Cooking Method:</span>
-          </label>
+          <label className="font-medium">Cooking Method</label>
           <textarea
-            className="textarea textarea-bordered w-full min-h-[100px]"
             name="method"
+            className="textarea textarea-bordered w-full min-h-[100px] border p-2 rounded"
             placeholder="Enter Cooking Method"
-          ></textarea>
+          />
         </div>
 
+        {/* Submit */}
         <button
           type="submit"
           disabled={loading}
@@ -206,11 +139,7 @@ export default function CreateRecipe() {
             loading ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >
-          {loading ? (
-            <span className="loading loading-spinner loading-sm"></span>
-          ) : (
-            "Apply"
-          )}
+          {loading ? "Creating..." : "Create"}
         </button>
       </form>
     </div>
