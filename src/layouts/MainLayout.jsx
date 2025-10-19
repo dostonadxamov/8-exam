@@ -7,7 +7,7 @@ export default function MainLayout() {
   const { user } = useSelector((store) => store.userList);
   const [theme, setTheme] = useState("light");
   const { _logout, isPending } = useLogout();
-  const [isOpen, setIsOpen] = useState(false);
+  const [select, setselect] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem("theme") || "light";
@@ -34,7 +34,7 @@ export default function MainLayout() {
             <div className="relative">
               <button
                 className="flex items-center gap-2 border p-2 rounded"
-                onClick={() => setIsOpen((prev) => !prev)}
+                onClick={() => setselect((prev) => !prev)}
               >
                 <span>{user.displayName}</span>
                 <img
@@ -44,26 +44,26 @@ export default function MainLayout() {
                 />
               </button>
 
-              {isOpen && (
+              {select && (
                 <div className="absolute right-0 mt-6  border border-gray-300 rounded p-3 w-48 shadow-md z-50">
                   <NavLink
                     to="/"
                     className="block px-2 py-1 rounded "
-                    onClick={() => setIsOpen(false)}
+                    onClick={() => setselect(false)}
                   >
                     Home
                   </NavLink>
                   <NavLink
                     to="/createRecipe"
                     className="block px-2 py-1 rounded "
-                    onClick={() => setIsOpen(false)}
+                    onClick={() => setselect(false)}
                   >
                     Create Recipe
                   </NavLink>
                   <button
                     onClick={() => {
                       toggleTheme();
-                      setIsOpen(false);
+                      setselect(false);
                     }}
                     className="block w-full text-left px-2 py-1 rounded "
                   >
@@ -73,7 +73,7 @@ export default function MainLayout() {
                     <button
                       onClick={() => {
                         _logout();
-                        setIsOpen(false);
+                        setselect(false);
                       }}
                       className="block w-full text-left px-2 py-1 rounded  hover:text-white mt-2"
                     >
