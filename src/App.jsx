@@ -1,23 +1,23 @@
+import CreateRecipe from "./pages/CreateRecipe";
+import ProtectedRoutes from "./components/ProtectedRoutes";
+import MainLayout from "./layouts/MainLayout";
 import {
   createBrowserRouter,
   Navigate,
   RouterProvider,
 } from "react-router-dom";
-import ProtectedRoutes from "./components/ProtectedRoutes";
-import MainLayout from "./layouts/MainLayout";
 import Home from "./pages/Home";
-import CreateRecipe from "./pages/CreateRecipe";
+import { Toaster } from "sonner";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import { Toaster } from "sonner";
-import { action as loginAction } from "./pages/Login";
-import { action as SignAction } from "./pages/Signup";
-import { useDispatch, useSelector } from "react-redux";
+import { action as Signaction } from "./pages/Signup";
+import { action as loginaction } from "./pages/Login";
 import { isAuthReady, login } from "./app/features/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import  Recipe  from "./pages/Recipe";
 import { auth } from "./firebase/config";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
-import SingleRecipe from "./pages/SingleRecipe";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -40,20 +40,20 @@ export default function App() {
           element: <CreateRecipe />,
         },
         {
-          path: "/singleRecipe/:id",
-          element: <SingleRecipe />,
+          path: "/recipe/:id",
+          element: <Recipe />,
         },
       ],
     },
     {
       path: "/login",
       element: user ? <Navigate to="/" /> : <Login />,
-      action: loginAction,
+      action: loginaction,
     },
     {
       path: "/signup",
       element: user ? <Navigate to="/" /> : <Signup />,
-      action: SignAction,
+      action: Signaction,
     },
   ]);
 

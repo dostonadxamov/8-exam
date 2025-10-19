@@ -3,12 +3,12 @@ import {getAuth} from "firebase/auth"
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCOk_8o9lfMi804gDYNJlbh_Xuh3w9I8ZU",
-  authDomain: "final-exam-e8957.firebaseapp.com",
-  projectId: "final-exam-e8957",
-  storageBucket: "final-exam-e8957.appspot.com",
-  messagingSenderId: "152658799071",
-  appId: "1:152658799071:web:b403cc0d81ea5f8086fc6a"
+  apiKey: "AIzaSyBJcdkMhW8p572uMx0rIZdBdv2KSsW8aq8",
+  authDomain: "kitchen-app-62a7c.firebaseapp.com",
+  projectId: "kitchen-app-62a7c",
+  storageBucket: "kitchen-app-62a7c.firebasestorage.app",
+  messagingSenderId: "189610774451",
+  appId: "1:189610774451:web:66ed70d47cc885376505c6"
 };
 
 // Initialize Firebase
