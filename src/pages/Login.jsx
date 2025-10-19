@@ -52,7 +52,7 @@ export default function Login() {
             disabled={isPending}
             className="bg-blue-500 text-white p-3 rounded hover:bg-blue-600 transition"
           >
-            {isPending ? "Logging in..." : "Login"}
+            {isPending ? "Loadin..." : "Login"}
           </button>
         </Form>
 

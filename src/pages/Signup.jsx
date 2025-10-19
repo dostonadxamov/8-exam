@@ -60,7 +60,7 @@ export default function Signup() {
             disabled={isPending}
             className="  p-3 rounded hover:bg-blue-600 transition"
           >
-            {isPending ? "Creating..." : "Sign Up"}
+            {isPending ? "Loading..." : "Sign Up"}
           </button>
         </Form>
 
