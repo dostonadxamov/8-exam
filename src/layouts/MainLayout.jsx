@@ -75,7 +75,7 @@ export default function MainLayout() {
                         _logout();
                         setIsOpen(false);
                       }}
-                      className="block w-full text-left px-2 py-1 rounded hover:bg-red-500 hover:text-white mt-2"
+                      className="block w-full text-left px-2 py-1 rounded  hover:text-white mt-2"
                     >
                       Logout
                     </button>

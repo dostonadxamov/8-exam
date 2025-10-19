@@ -32,7 +32,7 @@ export default function Home() {
           {recipes.map((recipe) => (
             <div
               key={recipe.id}
-              className="relative bg-base-100 border border-base-300 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group"
+              className="relative bg-base-100 border border-base-300 rounded-2xl overflow-hidden shadow-sm  group"
             >
               <button
                 onClick={() => handleDelete(recipe.id)}
@@ -67,7 +67,7 @@ export default function Home() {
                     {recipe.method}
                   </p>
                 </div>
-                <div className="absolute top-3 right-3 bg-black/60 text-white px-3 py-1 rounded-full text-sm">
+                <div className="absolute top-3 right-3  text-white px-3 py-1 rounded-full text-sm">
                   {recipe.cookTime} min
                 </div>
               </Link>
